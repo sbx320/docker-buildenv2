@@ -40,3 +40,5 @@ ENV CPP_host="clang-3.8 -E -fPIC"
 ENV LINK_host="clang++-3.8"
 
 user buildbot
+RUN mkdir ~/.ssh
+RUN ssh-keyscan -H gitlab.nanos.io >> ~/.ssh/known_hosts
