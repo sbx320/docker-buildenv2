@@ -42,3 +42,6 @@ ENV LINK_host="clang++-3.8"
 user buildbot
 RUN mkdir ~/.ssh
 RUN ssh-keyscan -H gitlab.nanos.io >> ~/.ssh/known_hosts
+
+CMD cp /id_rsa ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && \
+   /usr/local/bin/dumb-init twistd -ny buildbot.tac
