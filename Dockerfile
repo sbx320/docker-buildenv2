@@ -30,14 +30,14 @@ RUN apt-get update && apt-get install -y \
 	libssl-dev
 
 # use clang
-ENV CXX="clang++-3.8 -fPIC -std=c++1y"
-ENV CC="clang-3.8 -fPIC"
-ENV CPP="clang-3.8 -E -fPIC"
-ENV LINK="clang++-3.8"
-ENV CXX_host="clang++-3.8 -fPIC -std=c++1y"
-ENV CC_host="clang-3.8 -fPIC"
-ENV CPP_host="clang-3.8 -E -fPIC"
-ENV LINK_host="clang++-3.8"
+ENV CXX="clang++-3.8 -fPIC -std=c++1y -s -fvisibility=hidden -fvisibility-inlines-hidden"
+ENV CC="clang-3.8 -fPIC -s -fvisibility=hidden -fvisibility-inlines-hidden"
+ENV CPP="clang-3.8 -E -fPIC -s -fvisibility=hidden -fvisibility-inlines-hidden"
+ENV LINK="clang++-3.8 -s -fvisibility=hidden -fvisibility-inlines-hidden"
+ENV CXX_host="clang++-3.8 -fPIC -std=c++1y -s -fvisibility=hidden -fvisibility-inlines-hidden"
+ENV CC_host="clang-3.8 -fPIC -s -fvisibility=hidden -fvisibility-inlines-hidden"
+ENV CPP_host="clang-3.8 -E -fPIC -s -fvisibility=hidden -fvisibility-inlines-hidden"
+ENV LINK_host="clang++-3.8 -s -fvisibility=hidden -fvisibility-inlines-hidden"
 
 user buildbot
 RUN mkdir ~/.ssh
