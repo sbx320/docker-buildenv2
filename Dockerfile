@@ -1,47 +1,15 @@
-FROM buildbot/buildbot-worker:master
+FROM sbx320/buildenv2
+
 user root
-# wget
-RUN apt-get update && apt-get install -y \
-	software-properties-common \
-	wget
 
-# LLVM packages
-RUN /bin/bash -c "echo $'\n\
-deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main\n\
-deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main\n\
-deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-3.8 main\n\
-deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-3.8 main\n\
-' >> /etc/apt/sources.list"
+ADD . /compat
 
-# LLVM Key
-RUN /usr/bin/wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/lib/gcc/x86_64-linux-gnu/5/libstdc++.a /compat/libstdc++.a
+RUN objcopy --redefine-syms=/compat/glibc_version.redef /lib/x86_64-linux-gnu/libssl.a /compat/libssl.a
 
+ENV CXX="clang++-3.8 -fPIC -std=c++1y -i/compat/glibc_version.h -L/compat"
+ENV CC="clang-3.8 -fPIC -L/compat"
+ENV CPP="clang-3.8 -E -fPIC -L/compat"
+ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
 
-# add toolchain repo
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test
-
-# install compilation dependencies
-RUN apt-get update && apt-get install -y \
-	gcc-4.9 \
-	g++-4.9 \
-	clang-3.8 \
-	clang++-3.8 \
-	make \
-	libssl-dev
-
-# use clang
-ENV CXX="clang++-3.8 -fPIC -std=c++1y"
-ENV CC="clang-3.8 -fPIC"
-ENV CPP="clang-3.8 -E -fPIC"
-ENV LINK="clang++-3.8"
-ENV CXX_host="clang++-3.8 -fPIC -std=c++1y"
-ENV CC_host="clang-3.8 -fPIC"
-ENV CPP_host="clang-3.8 -E -fPIC"
-ENV LINK_host="clang++-3.8"
-
-user buildbot
-RUN mkdir ~/.ssh
-RUN ssh-keyscan -H gitlab.nanos.io >> ~/.ssh/known_hosts
-
-CMD cp /id_rsa ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && \
-   /usr/local/bin/dumb-init twistd -ny buildbot.tac
+user buildbot 
