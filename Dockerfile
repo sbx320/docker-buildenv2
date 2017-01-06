@@ -21,6 +21,7 @@ ENV OPENSSL_LIB_DIR=$PREFIX/lib \
 
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/lib/gcc/x86_64-linux-gnu/5/libstdc++.a /compat/libstdc++.a
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libssl.a /compat/libssl.a
+RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libcrypto.a /compat/libcrypto.a
 
 ENV CXX="clang++-3.8 -fPIC -std=c++1y -i/compat/glibc_version.h -L/compat"
 ENV CC="clang-3.8 -fPIC -L/compat"
