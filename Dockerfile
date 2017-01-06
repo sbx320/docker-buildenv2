@@ -4,6 +4,11 @@ user root
 
 ADD . /compat
 
+ENV CXX="clang++-3.8 -fPIC -std=c++1y -i/compat/glibc_version.h -L/compat"
+ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h -L/compat"
+ENV CPP="clang-3.8 -E"
+ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
+
 ENV SSL_VER=1.0.2j \
     PREFIX=/usr/local \
     PATH=/usr/local/bin:$PATH
@@ -23,9 +28,5 @@ RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/lib/gcc/x86_64-linu
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libssl.a /compat/libssl.a
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libcrypto.a /compat/libcrypto.a
 
-ENV CXX="clang++-3.8 -fPIC -std=c++1y -i/compat/glibc_version.h -L/compat"
-ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h -L/compat"
-ENV CPP="clang-3.8 -E -fPIC -i/compat/glibc_version.h -L/compat"
-ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
 
 user buildbot 
