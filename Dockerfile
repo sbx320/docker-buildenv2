@@ -4,10 +4,6 @@ user root
 
 ADD . /compat
 
-ENV CXX="clang++-3.8 -fPIC -std=c++1y -i/compat/glibc_version.h -L/compat"
-ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h -L/compat"
-ENV CPP="clang-3.8 -E"
-ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
 
 ENV SSL_VER=1.0.2j \
     PREFIX=/usr/local \
@@ -23,6 +19,11 @@ ENV OPENSSL_LIB_DIR=$PREFIX/lib \
     OPENSSL_INCLUDE_DIR=$PREFIX/include \
     OPENSSL_DIR=$PREFIX \
     OPENSSL_STATIC=1
+
+ENV CXX="clang++-3.8 -fPIC -std=c++1y -i/compat/glibc_version.h -L/compat"
+ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h -L/compat"
+ENV CPP="clang-3.8 -E"
+ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
 
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/lib/gcc/x86_64-linux-gnu/5/libstdc++.a /compat/libstdc++.a
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libssl.a /compat/libssl.a
