@@ -20,7 +20,7 @@ ENV OPENSSL_LIB_DIR=$PREFIX/lib \
     OPENSSL_DIR=$PREFIX \
     OPENSSL_STATIC=1
 
-ENV CXX="clang++-3.8 -fPIC -std=c++1y -i/compat/glibc_version.h -L/compat"
+ENV CXX="clang++-3.8 -fPIC -std=c++1z -i/compat/glibc_version.h -L/compat"
 ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h -L/compat"
 ENV CPP="clang-3.8 -E"
 ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
