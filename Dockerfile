@@ -1,5 +1,5 @@
-FROM sbx320/buildenv2
-
+FROM buildbot/buildbot-worker:master
+user root
 RUN apt-get update && apt-get install -y \
 	software-properties-common \
 	wget
