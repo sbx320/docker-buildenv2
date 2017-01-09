@@ -34,10 +34,10 @@ ENV OPENSSL_LIB_DIR=$PREFIX/lib \
     OPENSSL_DIR=$PREFIX \
     OPENSSL_STATIC=1
 
-ENV CXX="clang++ -fPIC -std=c++1z -i/compat/glibc_version.h -L/compat"
-ENV CC="clang -fPIC -i/compat/glibc_version.h -L/compat"
-ENV CPP="clang -E"
-ENV LINK="clang++ -static-libstdc++ -static-libgcc -L/compat"
+ENV CXX="clang++-3.8 -fPIC -std=c++1z -i/compat/glibc_version.h -L/compat"
+ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h -L/compat"
+ENV CPP="clang-3.8 -E"
+ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
 	
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test 
 
