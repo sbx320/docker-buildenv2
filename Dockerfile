@@ -51,6 +51,8 @@ RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libcrypto
 user buildbot 
 RUN mkdir ~/.ssh
 RUN ssh-keyscan -H gitlab.nanos.io >> ~/.ssh/known_hosts
+RUN wget https://github.com/sbx320/binaries/blob/master/dump_syms?raw=true -O /usr/bin/dump_syms && chmod +x /usr/bin/dump_syms
 
 CMD cp /id_rsa ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && \
    /usr/local/bin/dumb-init twistd -ny buildbot.tac
+
