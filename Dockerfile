@@ -23,6 +23,8 @@ ENV SSL_VER=1.0.2j \
     PREFIX=/usr/local \
     PATH=/usr/local/bin:$PATH
 
+ENV CC="clang-3.8 -fPIC"
+
 RUN curl -sL http://www.openssl.org/source/openssl-$SSL_VER.tar.gz | tar xz && \
     cd openssl-$SSL_VER && \
     ./Configure no-shared --prefix=$PREFIX --openssldir=$PREFIX/ssl no-zlib linux-x86_64 && \
@@ -34,8 +36,8 @@ ENV OPENSSL_LIB_DIR=$PREFIX/lib \
     OPENSSL_DIR=$PREFIX \
     OPENSSL_STATIC=1
 
-ENV CXX="clang++-3.8 -fPIC -std=c++1z -i/compat/glibc_version.h -L/compat"
-ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h -L/compat"
+ENV CXX="clang++-3.8 -fPIC -std=c++1z -i/compat/glibc_version.h"
+ENV CC="clang-3.8 -fPIC -i/compat/glibc_version.h"
 ENV CPP="clang-3.8 -E"
 ENV LINK="clang++-3.8 -static-libstdc++ -static-libgcc -L/compat"
 	
