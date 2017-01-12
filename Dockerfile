@@ -1,5 +1,4 @@
-FROM buildbot/buildbot-worker:master
-user root
+FROM buildpack-deps:xenial
 RUN apt-get update && apt-get install -y \
 	software-properties-common \
 	wget
@@ -50,7 +49,6 @@ RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libcrypto
 
 RUN wget https://github.com/sbx320/binaries/blob/master/dump_syms?raw=true -O /usr/bin/dump_syms && chmod +x /usr/bin/dump_syms
 
-user buildbot 
 RUN mkdir ~/.ssh
 RUN ssh-keyscan -H gitlab.nanos.io >> ~/.ssh/known_hosts
 
