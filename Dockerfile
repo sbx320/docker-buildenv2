@@ -47,4 +47,8 @@ RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/lib/gcc/x86_64-linu
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libssl.a /compat/libssl.a
 RUN objcopy --redefine-syms=/compat/glibc_version.redef /usr/local/lib/libcrypto.a /compat/libcrypto.a
 
+# Really force clang...
+RUN ln -sf clang++-3.8 /usr/bin/g++
+RUN ln -sf clang-3.8 /usr/bin/gcc
+
 RUN wget https://github.com/sbx320/binaries/blob/master/dump_syms?raw=true -O /usr/bin/dump_syms && chmod +x /usr/bin/dump_syms
